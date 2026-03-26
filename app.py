@@ -33,6 +33,27 @@ def cadastro_page():
 
 ##------------- ÁREA DE ROTAS API ---------------
 
+# Retornar usuário logado
+@app.route('/usuario', methods=['GET'])
+def usuario():
+    if not usuario_logado:
+        return jsonify({
+            "username": None,
+            "pontos": 0
+        })
+
+    return jsonify({
+        "username": usuario_logado['username'],
+        "pontos": usuario_logado['pontos']
+    })
+
+# Logout
+@app.route('/logout', methods=['POST'])
+def logout():
+    global usuario_logado
+    usuario_logado = None
+    return jsonify({"mensagem": "Logout realizado"})
+
 @app.route('/cadastro', methods=['POST'])
 def cadastro():
     dados = request.get_json()
