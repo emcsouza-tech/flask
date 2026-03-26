@@ -89,5 +89,14 @@ def completar(id):
         "pontos": usuario_logado['pontos']
     })
 
+@app.route('/ranking', methods=['GET'])
+def ranking():
+    ranking = sorted(usuarios, key=lambda u: u['pontos'], reverse=True)
+
+    return jsonify([
+        {"username": u['username'], "pontos": u['pontos']}
+        for u in ranking
+    ])
+
 if __name__ == '__main__':
     app.run(debug=True)

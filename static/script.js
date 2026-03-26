@@ -69,4 +69,20 @@ function completar(id) {
     .then(d => alert(JSON.stringify(d)));
 }
 
+// Ranking
+function carregarRanking() {
+    fetch('/ranking')
+    .then(r => r.json())
+    .then(d => {
+        let lista = document.getElementById('ranking');
+        lista.innerHTML = '';
+
+        d.forEach(user => {
+            let li = document.createElement('li');
+            li.innerText = `${user.username}: ${user.pontos} pts`;
+            lista.appendChild(li);
+        });
+    });
+}
+
 
