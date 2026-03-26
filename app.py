@@ -15,14 +15,18 @@ def buscar_usuario(username):
 def home():
     return render_template('index.html')
 
-@app.route('/login_page')
+@app.route('/login')
 def login_page():
     return render_template('login.html')
 
+@app.route('/cadastro')
+def cadastro_page():
+    return render_template('cadastro.html')
+
 ##------------- ÁREA DE ROTAS API ---------------
 
-@app.route('/register', methods=['POST'])
-def register():
+@app.route('/cadastro', methods=['POST'])
+def cadastro():
     dados = request.get_json()
 
     if buscar_usuario(dados['username']):
