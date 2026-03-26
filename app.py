@@ -5,6 +5,14 @@ app = Flask(__name__)
 ##------------- ÁREA DE DADOS ---------------
 usuarios = []
 
+desafios = [
+    {"id": 1, "titulo": "Hello World", "pontos": 10},
+    {"id": 2, "titulo": "Loop for", "pontos": 15},
+    {"id": 3, "titulo": "Função soma", "pontos": 20},
+]
+
+usuario_logado = None
+
 ##------------- ÁREA DE FUNÇÕES AUXILIARES ---------------
 
 def buscar_usuario(username):
@@ -55,6 +63,40 @@ def login():
     usuario_logado = user
 
     return jsonify({"mensagem": "Login realizado com sucesso!"})
+
+@app.route('/desafios', methods=['GET'])
+def listar_desafios():
+    return jsonify(desafios)
+
+
+@app.route('/completar/<int:id>', methods=['POST'])
+def completar(id):
+    global usuario_logado
+
+    if not usuario_logado:
+        return jsonify({"erro": "Faça login"}), 401
+
+    desafio = next((d for d in desafios if d['id'] == id), None)
+
+    if id in usuario_logado['desafios']:
+        return jsonify({"erro": "Já completado"}), 400
+
+    usuario_logado['desafios'].append(id)
+    usuario_logado['pontos'] += desafio['pontos']
+
+    return jsonify({
+        "mensagem": "Concluído!",
+        "pontos": usuario_logado['pontos']
+    })
+
+@app.route('/ranking', methods=['GET'])
+def ranking():
+    ranking = sorted(usuarios, key=lambda u: u['pontos'], reverse=True)
+
+    return jsonify([
+        {"username": u['username'], "pontos": u['pontos']}
+        for u in ranking
+    ])
 
 if __name__ == '__main__':
     app.run(debug=True)

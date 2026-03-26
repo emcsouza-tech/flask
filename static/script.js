@@ -1,4 +1,4 @@
-// Redirecionamentos
+//------------- REDIRECIONAMENTOS ---------------
 function irParaLogin() {
     window.location.href = "/login";
 }
@@ -11,8 +11,7 @@ function voltar() {
     window.location.href = "/";
 }
 
-
-// Cadastro
+//------------- CADASTRO ---------------
 function cadastrar() {
     fetch('/cadastro', {
         method: 'POST',
@@ -27,7 +26,7 @@ function cadastrar() {
 }
 
 
-// Login
+//------------- LOGIN ---------------
 function login() {
     fetch('/login', {
         method: 'POST',
@@ -47,6 +46,43 @@ function login() {
     });
 }
 
+//------------- DESAFIOS ---------------
+function carregarDesafios() {
+    fetch('/desafios')
+    .then(r => r.json())
+    .then(d => {
+        let lista = document.getElementById('lista_desafios');
+        lista.innerHTML = '';
 
+        d.forEach(desafio => {
+            let li = document.createElement('li');
+            li.innerHTML = `${desafio.titulo} (${desafio.pontos} pts)
+                <button onclick="completar(${desafio.id})">Completar</button>`;
+            lista.appendChild(li);
+        });
+    });
+}
+
+function completar(id) {
+    fetch(`/completar/${id}`, { method: 'POST' })
+    .then(r => r.json())
+    .then(d => alert(JSON.stringify(d)));
+}
+
+// Ranking
+function carregarRanking() {
+    fetch('/ranking')
+    .then(r => r.json())
+    .then(d => {
+        let lista = document.getElementById('ranking');
+        lista.innerHTML = '';
+
+        d.forEach(user => {
+            let li = document.createElement('li');
+            li.innerText = `${user.username}: ${user.pontos} pts`;
+            lista.appendChild(li);
+        });
+    });
+}
 
 
