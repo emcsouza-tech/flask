@@ -2,9 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Página de Cadastro</title>
 </head>
 <body>
-    Teste de pagina inicial
+
+<h1>Pagina de Aprendizado de Python</h1>
+
+<h2>Login</h2>
+<button onclick="irParaLogin()">Login</button>
+
+<h2>Cadastro</h2>
+<input id="reg_user" placeholder="Usuário">
+<input id="reg_pass" placeholder="Senha">
+<button onclick="registrar()">Registrar</button>
+
+<h2>Desafios</h2>
+<button onclick="carregarDesafios()">Ver desafios</button>
+<ul id="lista_desafios"></ul>
+
+<h2>Ranking</h2>
+<button onclick="carregarRanking()">Ver ranking</button>
+<ul id="ranking"></ul>
+
+<script src="/static/script.js"></script>
 </body>
 </html>
