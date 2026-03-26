@@ -41,7 +41,43 @@ function login() {
         alert(JSON.stringify(d));
 
         if (!d.erro) {
+            atualizarUsuario();
+            carregarRanking();
             window.location.href = "/";
+        }
+    });
+}
+
+//------------- LOGOUT ---------------
+function logout() {
+    fetch('/logout', { method: 'POST' })
+    .then(r => r.json())
+    .then(d => {
+        alert(d.mensagem);
+        atualizarUsuario();
+        carregarRanking();
+    });
+}
+
+function atualizarUsuario() {
+    fetch('/usuario')
+    .then(r => r.json())
+    .then(d => {
+        let info = document.getElementById('info_usuario');
+        let btnLogout = document.getElementById('btn_logout');
+        let btnLogin = document.getElementById('btn_login');
+
+        if (!d.username) {
+            info.innerText = "Não logado";
+
+            btnLogout.style.display = "none";
+            if (btnLogin) btnLogin.style.display = "inline";
+
+        } else {
+            info.innerText = `👤 ${d.username} | Pontos: ${d.pontos}`;
+
+            btnLogout.style.display = "inline";
+            if (btnLogin) btnLogin.style.display = "none";
         }
     });
 }
@@ -66,10 +102,14 @@ function carregarDesafios() {
 function completar(id) {
     fetch(`/completar/${id}`, { method: 'POST' })
     .then(r => r.json())
-    .then(d => alert(JSON.stringify(d)));
+    .then(d => {
+        alert(JSON.stringify(d));
+        atualizarUsuario();
+        carregarRanking();
+    });
 }
 
-// Ranking
+//------------- RANKING ---------------
 function carregarRanking() {
     fetch('/ranking')
     .then(r => r.json())
@@ -83,6 +123,12 @@ function carregarRanking() {
             lista.appendChild(li);
         });
     });
+}
+
+//------------- CARREGAMENTO AUTOMATICO ---------------
+window.onload = function() {
+    atualizarUsuario();
+    carregarRanking();
 }
 
 
