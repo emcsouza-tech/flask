@@ -1,6 +1,10 @@
 // Redirecionamentos
 function irParaLogin() {
-    window.location.href = "/login_page";
+    window.location.href = "/login";
+}
+
+function irParaCadastro() {
+    window.location.href = "/cadastro";
 }
 
 function voltar() {
@@ -9,8 +13,8 @@ function voltar() {
 
 
 // Cadastro
-function registrar() {
-    fetch('/register', {
+function cadastrar() {
+    fetch('/cadastro', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
